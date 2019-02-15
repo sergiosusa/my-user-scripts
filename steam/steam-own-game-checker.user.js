@@ -13,7 +13,7 @@
 // ==/UserScript==
 
 const STEAM_API = '';
-const STEAM_USER_ID = '';
+const STEAM_USER_ID = '76561198041196449';
 
 (function () {
     'use strict';
@@ -29,7 +29,6 @@ const STEAM_USER_ID = '';
         }
     );
 })();
-
 
 function CheckerFactory() {
 
@@ -144,8 +143,27 @@ function Fanatical() {
 
     Checker.call(this);
 
-    this.check = function () {
+    this.check = function (myGames) {
+        var games = jQuery('.card-overlay');
+        this.compareGames(games, myGames);
 
+        for (var x = 0; x < this.own.length; x++) {
+            this.addResult(this.own[x], '#D88000', 'Own');
+        }
+
+        for (var y = 0; y < this.notOwn.length; y++) {
+            this.addResult(this.notOwn[y], '#18a3ff', 'Not Own');
+        }
+    }
+
+    this.addResult = function (item, color, text) {
+        jQuery(item).parent().parent().find('.card-content').css('border-color', color);
+        jQuery(item).parent().parent().find('.card-content').css('border-bottom-style', 'solid');
+        jQuery(item).parent().parent().find('.card-icons-container').html(jQuery(item).parent().parent().find('.card-icons-container').html() + this.getHtmlSpanResult(color, text));
+    }
+
+    this.getHtmlSpanResult = function (color, text) {
+        return '<span style="color:' + color + ';margin-left: 0px;font-weight: bold;background:none;display:inline;">(' + text + ')</span>';
     }
 }
 
