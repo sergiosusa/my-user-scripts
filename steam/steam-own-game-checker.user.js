@@ -4,7 +4,7 @@
 // @version      0.2
 // @description  Check against your steam library if you have already got the game
 // @author       Sergio Susa (sergio@sergiosusa.com)
-// @match        https://www.gogobundle.com/latest/bundles/*
+// @match        https://www.bunchkeys.com/*
 // @match        https://www.humblebundle.com/games/*
 // @match        https://www.indiegala.com/*
 // @match        https://www.fanatical.com/*/bundle/*
@@ -43,13 +43,13 @@ function CheckerFactory() {
             case 'indiegala':
                 checker = new IndieGala();
                 break;
-            case 'gogobundle':
-                checker = new GoGoBundle();
-                break;
-
             case 'fanatical':
                 checker = new Fanatical();
                 break;
+            case 'bunchkeys':
+                checker = new BunchKeys();
+                break;
+
         }
         return checker;
     }
@@ -169,16 +169,35 @@ function Fanatical() {
 
 Fanatical.prototype = Object.create(Checker.prototype);
 
-function GoGoBundle() {
+function BunchKeys() {
 
     Checker.call(this);
 
-    this.check = function () {
+    this.check = function (myGames) {
+        var games = jQuery('div[data-packed="true"] > h5 > span[style="color:#FFFFFF;"] > span[style="font-size:19px;"]')
+        this.compareGames(games, myGames);
 
+        for (var x = 0; x < this.own.length; x++) {
+            this.addResult(this.own[x], '#D88000', 'Own');
+        }
+
+        for (var y = 0; y < this.notOwn.length; y++) {
+            this.addResult(this.notOwn[y], '#18a3ff', 'Not Own');
+        }
+    }
+
+    this.addResult = function (item, color, text) {
+        jQuery(item).parent().parent().parent().parent().find('div[data-mesh-internal="true"] > div').css('border-color', color);
+        jQuery(item).parent().parent().parent().parent().find('div[data-mesh-internal="true"] > div').css('border-bottom-style', 'solid');
+        jQuery(item).parent().parent().parent().html(jQuery(item).parent().parent().parent().html() + this.getHtmlSpanResult(color, text));
+    }
+
+    this.getHtmlSpanResult = function (color, text) {
+        return '<span style="color:' + color + ';margin-left: 0px;font-weight: bold;display: block;width: 100%;text-align: center;">(' + text + ')</span>';
     }
 }
 
-GoGoBundle.prototype = Object.create(Checker.prototype);
+BunchKeys.prototype = Object.create(Checker.prototype);
 
 function SteamAPI(steamApiKey) {
     const OWN_GAMES_ENDPOINT = "https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=[STEAM-API-ID]&steamid=[STEAM-USER-ID]&include_appinfo=1";
