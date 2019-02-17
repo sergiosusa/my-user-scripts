@@ -34,35 +34,26 @@ SteamID64 (<code>STEAM_USER_ID</code>). You can find it [here](https://steamid.i
 ![Own and not Own games on Humble Bundle](https://preview.ibb.co/bEh0px/hb_own_games.png)
 
 
-Steam Trade Matcher Scan Utilities
-----------------------------------
+## Steam Trade Matcher Scan Utilities
 
 This script add some utilities to the scan option letting filter by bot or non bot user, arrange results by quantity and open trades automatically.
 
-Supported sites
----------------
+### Supported sites
 
 - [Steam Trade Matcher](https://www.steamtradematcher.com)
 
-Screenshots
------------
+### Screenshots
 
 ![Steam Trade Matcher Filter](https://i.ibb.co/bJkQt8R/steamtradematcher.png)
 
-
-
-
-Indiegala Bundle Exposer
-------------------------
+## Indiegala Bundle Exposer
 
 This script adds two options to Indiegala' gift bundle page, the first one is for reveal and copy the games keys and the second one is just for copy them. 
 
-Supported sites
----------------
+### Supported sites
 
 - [Indie Gala](https://www.indiegala.com)
 
-Screenshots
------------
+### Screenshots
 
 ![Reveal and Copy Indiegala gifts](https://i.ibb.co/ZL5nhHy/indiegala-script.png)
