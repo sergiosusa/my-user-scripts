@@ -4,9 +4,6 @@ A users scripts' collection created by me. All scripts are written on javascript
 
 ## Prerequisites
 
-Chrome Extension: Tampermonkey
-Firefox Extension: 
-
 - [Tampermonkey (Chrome)](https://tampermonkey.net)
 - [Greasemonkey (Firefox)](http://www.greasespot.net)
 - [Violent monkey (Opera)](https://addons.opera.com/sk/extensions/details/violent-monkey/)

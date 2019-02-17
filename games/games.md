@@ -28,11 +28,21 @@ SteamID64 (<code>STEAM_USER_ID</code>). You can find it [here](https://steamid.i
 
 - Better string comparison.
 
-
 ### Screenshots
 
 ![Own and not Own games on Humble Bundle](https://preview.ibb.co/bEh0px/hb_own_games.png)
 
+## Massive Steam Game Activator
+
+This script add the possibility to activate multiple keys to a steam account.
+
+### Supported sites
+
+- [Steam Registration Key](https://store.steampowered.com/account/registerkey)
+
+### Screenshots
+
+![Steam massive games activator](https://i.ibb.co/GkZ8Qwb/masive.png)
 
 ## Steam Trade Matcher Scan Utilities
 
