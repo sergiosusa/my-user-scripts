@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Massive Steam Game Activator
-// @namespace    http://sergiosusa.com
+// @namespace    https://sergiosusa.com
 // @version      0.4
 // @description  Multiple games activation on your steam account via web.
-// @author       Sergio Susa (http://sergiosusa.com) y David Jimenez (https://djimenez.me)
+// @author       Sergio Susa (https://sergiosusa.com) y David Jimenez (https://djimenez.me)
 // @match        https://store.steampowered.com/account/registerkey*
 // @grant        none
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js

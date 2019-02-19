@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Indiegala Bundles' Exposer
-// @namespace    http://sergiosusa.com
+// @namespace    https://sergiosusa.com
 // @version      0.3
 // @description  Reveal and copy each game of a indiegala's bundle.
 // @author       Sergio Susa (sergio@sergiosusa.com)

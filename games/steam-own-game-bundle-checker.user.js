@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Steam Own Game Bundle Checker
-// @namespace    http://sergiosusa.com/
+// @namespace    https://sergiosusa.com/
 // @version      0.2
 // @description  Check against your games library if you have already got the game (sites support: humblebundle, indiegala, fanatical, bunchkeys).
 // @author       Sergio Susa (sergio@sergiosusa.com)

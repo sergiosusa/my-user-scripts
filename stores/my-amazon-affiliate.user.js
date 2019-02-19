@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         My Amazon Affiliate
-// @namespace    http://sergiosusa.com
+// @namespace    https://sergiosusa.com
 // @version      0.1
 // @description  This script add my affiliate tag to all amazon.es product pages, thanks for your help.
-// @author       Sergio Susa (http://sergiosusa.com)
+// @author       Sergio Susa (https://sergiosusa.com)
 // @match        https://www.amazon.es/*/dp/*
 // @match        https://www.amazon.es/dp/*
 // @grant        none
