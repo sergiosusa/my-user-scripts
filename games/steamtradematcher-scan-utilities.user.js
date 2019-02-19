@@ -169,7 +169,7 @@ function GraphicInterface(steamTradeMatcherUtilities) {
             '<hr>' +
             '<div id="order-by-trade-quantity-btn" class="trade-button">Order by trade quantity</div>' +
             '<hr>' +
-            '<div id="open-trades-btn" class="trade-button">Open the first <input style="width: 23px;height: 23px;" id="totalTrades" type="text" value="3" > trades each seconds <input style="width: 23px;height: 23px;" id="secondsBetweenTrades" type="text" value="10" ></div>.' +
+            '<div id="open-trades-btn" class="trade-button">Open the first <input style="width: 23px;height: 23px;" id="totalTrades" type="text" value="3" > trades each seconds <input style="width: 23px;height: 23px;" id="secondsBetweenTrades" type="text" value="10" >.</div>' +
             '</div>' +
             '</div>';
     }
