@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Steam Trade Matcher Scan Utilities
-// @namespace    http://sergiosusa.com
+// @namespace    https://sergiosusa.com
 // @version      0.4
 // @description  Bring some utilities to the Steam Trade Matcher results page.
 // @author       Sergio Susa (sergio@sergiosusa.com)
