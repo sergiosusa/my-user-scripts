@@ -20,9 +20,12 @@ That's it!
 
 ### Index
 
+- [Stores](stores/stores.md)
 - [Games](games/games.md)
 
 
 ### Author
 
 Sergio Susa (https://sergiosusa.com)
+
+If you want to support my work, consider to use [this](stores/my-amazon-affiliate.user.js) script when you buy on amazon spain.
