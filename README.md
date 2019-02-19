@@ -2,18 +2,13 @@
 
 A users scripts' collection created by me. All scripts are written on javascript language and need some browser extension to work.
 
-Prerequisites
------------
-
-Chrome Extension: Tampermonkey
-Firefox Extension: 
+## Prerequisites
 
 - [Tampermonkey (Chrome)](https://tampermonkey.net)
 - [Greasemonkey (Firefox)](http://www.greasespot.net)
 - [Violent monkey (Opera)](https://addons.opera.com/sk/extensions/details/violent-monkey/)
 
-Installation
-------------
+## Installation
 
 **Github**
 
@@ -23,12 +18,11 @@ Installation
 
 That's it! 
 
-Index
------
+### Index
 
 - [Games](games/games.md)
 
 
-Author
--------  
+### Author
+
 Sergio Susa (https://sergiosusa.com)
