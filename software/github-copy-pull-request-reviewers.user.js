@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Copy Github pull request reviewers.
 // @namespace    https://sergiosusa.com/
-// @version      0.1
+// @version      0.2
 // @description  Copy Github pull request reviewers.
 // @author       You
 // @match        https://github.com/*pull/*
