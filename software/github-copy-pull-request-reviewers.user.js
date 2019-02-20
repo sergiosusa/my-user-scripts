@@ -14,7 +14,6 @@
     let graphicInterface = new GraphicInterface(new PullRequestReviewers());
     graphicInterface.render();
 
-
 })();
 
 function GraphicInterface(pullRequestReviewers) {
@@ -22,64 +21,53 @@ function GraphicInterface(pullRequestReviewers) {
     this.render = () => {
 
         let container = document.querySelector("div.discussion-sidebar-item").parentNode.parentNode;
-        html = '<i class="fas fa-igloo"></i><div style="border-bottom: 1px solid #e6ebf1;margin-bottom: 15px;" class="discussion-sidebar-item sidebar-assignee js-discussion-sidebar-item"><span id="copy_btn"  style="cursor:pointer">Copy</span> - <span id="paste_btn" style="cursor:pointer">Paste</span></div>';
+        html = '<div style="border-bottom: 1px solid #e6ebf1;margin-bottom: -11px;text-align: center;padding-bottom: 6px;" class="discussion-sidebar-item sidebar-assignee js-discussion-sidebar-item"><button type="button" id="copy_btn" class="btn btn-sm js-details-target" >Copy</button> <button type="button" id="paste_btn" class="btn btn-sm js-details-target" >Paste</button> <button type="button" id="clear_btn" class="btn btn-sm js-details-target" >Clear</button></div>';
         container.innerHTML = html + container.innerHTML;
 
         let copyBtn = document.getElementById('copy_btn');
         copyBtn.onclick = pullRequestReviewers.copy;
         let pasteBtn = document.getElementById('paste_btn');
         pasteBtn.onclick = pullRequestReviewers.paste;
+
+        let clearBtn = document.getElementById('clear_btn');
+        clearBtn.onclick = pullRequestReviewers.clear;
+
+
+
     }
 }
 
 function PullRequestReviewers() {
     this.copy = () => {
 
-        setTimeout(() => {
-
-            document.querySelectorAll("div.sidebar-assignee > form > details")[0].setAttribute('open', '');
-
-        }, 500);
+        document.querySelectorAll("div.sidebar-assignee > form > details")[0].setAttribute('open', '');
 
 
         setTimeout(() => {
 
             let reviewers = document.querySelectorAll('input[name="reviewer_user_ids[]"]');
-
             let reviewersId = [];
 
             for (let x = 0; x < reviewers.length; x++) {
-
-
-
                 if (reviewers[x].parentNode.getAttribute("class").includes("selected")) {
                     reviewersId .push(reviewers[x].value);
                 }
-
             }
 
             localStorage.setItem('github_reviewers', JSON.stringify(reviewersId));
 
-        }, 2000);
+        }, 1000);
 
 
         setTimeout(() => {
-
             document.querySelectorAll("div.sidebar-assignee > form > details")[0].removeAttribute('open');
-
-        }, 3000);
+        }, 2000);
 
     };
 
     this.paste = () => {
 
-
-        setTimeout(() => {
-
-            document.querySelectorAll("div.sidebar-assignee > form > details")[0].setAttribute('open', '');
-
-        }, 500);
-
+        document.querySelectorAll("div.sidebar-assignee > form > details")[0].setAttribute('open', '');
 
         setTimeout(() => {
 
@@ -93,21 +81,33 @@ function PullRequestReviewers() {
                 }
             }
 
+        }, 1000);
+
+        setTimeout(() => {
+            document.querySelectorAll("div.sidebar-assignee > form > details")[0].removeAttribute('open');
         }, 2000);
 
+    };
+
+    this.clear = () => {
+        document.querySelectorAll("div.sidebar-assignee > form > details")[0].setAttribute('open', '');
 
         setTimeout(() => {
 
+            let reviewers = document.querySelectorAll('input[name="reviewer_user_ids[]"]');
+
+            for (let x = 0; x < reviewers.length; x++) {
+                if (reviewers[x].parentNode.getAttribute("class").includes("selected")) {
+                    reviewers[x].click();
+                }
+            }
+
+        }, 1000);
+
+
+        setTimeout(() => {
             document.querySelectorAll("div.sidebar-assignee > form > details")[0].removeAttribute('open');
-
-        }, 3000);
-
-    };
+        }, 2000);
+    }
 }
-
-//xaf -> 994837
-
-
-//$("div.sidebar-assignee > form > details[name='reviewer_user_ids[]']")
-
 
