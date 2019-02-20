@@ -21,8 +21,7 @@ function GraphicInterface(pullRequestReviewers) {
     this.render = () => {
 
         let container = document.querySelector("div.discussion-sidebar-item").parentNode.parentNode;
-        html = '<div style="border-bottom: 1px solid #e6ebf1;margin-bottom: -11px;text-align: center;padding-bottom: 6px;" class="discussion-sidebar-item sidebar-assignee js-discussion-sidebar-item"><button type="button" id="copy_btn" class="btn btn-sm js-details-target" >Copy</button> <button type="button" id="paste_btn" class="btn btn-sm js-details-target" >Paste</button> <button type="button" id="clear_btn" class="btn btn-sm js-details-target" >Clear</button></div>';
-        container.innerHTML = html + container.innerHTML;
+        container.innerHTML = this.html() + container.innerHTML;
 
         let copyBtn = document.getElementById('copy_btn');
         copyBtn.onclick = pullRequestReviewers.copy;
@@ -32,7 +31,28 @@ function GraphicInterface(pullRequestReviewers) {
         let clearBtn = document.getElementById('clear_btn');
         clearBtn.onclick = pullRequestReviewers.clear;
 
+    };
 
+    this.html = () => {
+
+        let html = '<div style="border-bottom: 1px solid #e6ebf1;margin-bottom: -11px;text-align: center;padding-bottom: 6px;" class="discussion-sidebar-item sidebar-assignee js-discussion-sidebar-item">';
+
+        let reviewersId = JSON.parse(localStorage.getItem('github_reviewers'));
+
+        html+='<div style="margin-bottom: 5px;">';
+
+        for (let x = 0; x < reviewersId.length; x++) {
+            html+='<img class="avatar" src="https://avatars3.githubusercontent.com/u/'+ reviewersId[x] +'?s=40&amp;v=4" width="20" height="20">';
+        }
+
+        html+='</div>';
+
+        html+= '<button type="button" id="copy_btn" class="btn btn-sm js-details-target" >Copy</button> ' +
+            '<button type="button" id="paste_btn" class="btn btn-sm js-details-target" >Paste</button> ' +
+            '<button type="button" id="clear_btn" class="btn btn-sm js-details-target" >Clear</button>' +
+            '</div>';
+
+        return html;
 
     }
 }
