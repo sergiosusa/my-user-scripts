@@ -20,8 +20,9 @@ That's it!
 
 ### Index
 
-- [Stores](stores/stores.md)
 - [Games](games/games.md)
+- [Software](software/software.md)
+- [Stores](stores/stores.md)
 
 
 ### Author
