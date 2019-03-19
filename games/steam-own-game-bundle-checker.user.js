@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam Own Game Bundle Checker
 // @namespace    https://sergiosusa.com/
-// @version      0.2
+// @version      0.3
 // @description  Check against your games library if you have already got the game (sites support: humblebundle, indiegala, fanatical, bunchkeys).
 // @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://www.bunchkeys.com/*
@@ -66,7 +66,7 @@ function Checker() {
         for (let x = 0; x < games.length; x++) {
             let found = false;
             for (let y = 0; y < myGames.game_count; y++) {
-                if (myGames.games[y].name.trim().toLowerCase() === games[x].innerText.trim().toLowerCase()) {
+                if (myGames.games[y].name.trim().toLowerCase() === games[x].innerText.replace('Locked content','').trim().toLowerCase()) {
                     this.own.push(games[x]);
                     found = true;
                 }
