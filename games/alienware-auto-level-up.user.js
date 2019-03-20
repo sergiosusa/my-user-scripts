@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Forum Vote Ramdom
-// @namespace    http://tampermonkey.net/
+// @name         Auto Leveling Alienware
+// @namespace    http://sergiosusa.com/
 // @version      0.1
 // @description  try to take over the world!
-// @author       You
+// @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://*.alienwarearena.com/forums/
 // @match        https://*.alienwarearena.com/forums/board/*
 // @match        https://*.alienwarearena.com/ucf/show/*
@@ -18,7 +18,7 @@
     if (window.location.href === 'https://eu.alienwarearena.com/forums/' || window.location.href === 'https://na.alienwarearena.com/forums/') {
         alienware.render();
 
-        if (alienware.load('started') == true) {
+        if (alienware.load('vote_started') == true) {
 
             setTimeout(() => {
                 alienware.selectRandomForm();
@@ -28,7 +28,7 @@
         }
 
     } else if (window.location.href.indexOf('https://eu.alienwarearena.com/forums/board/') !== -1 || window.location.href.indexOf('https://na.alienwarearena.com/forums/board/') !== -1) {
-        if (alienware.load('started') == true) {
+        if (alienware.load('vote_started') == true) {
 
             setTimeout(() => {
                 alienware.selectRamdomThreat();
@@ -36,12 +36,12 @@
 
         }
     } else if (window.location.href.indexOf('https://eu.alienwarearena.com/ucf/show/') !== -1 || window.location.href.indexOf('https://na.alienwarearena.com/ucf/show/') !== -1) {
-        if (alienware.load('started') == true) {
+        if (alienware.load('vote_started') == true) {
 
             setTimeout(() => {
 
                 if (document.querySelector("#arp-toast > div.toast-body > table:nth-child(2) > tbody > tr:nth-child(2) > td.text-center").innerText === "20 of 20") {
-                    alienware.store('started', false);
+                    alienware.store('vote_started', false);
                 } else {
                     alienware.vote();
                 }
@@ -61,23 +61,36 @@ function Alienware() {
 
     this.render = () => {
 
-        let breadcrumb = document.getElementsByClassName("breadcrumb");
-
+        let voteContent = document.querySelector("#arp-toast > div.toast-body > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1)");
         let a = document.createElement('a');
         a.onclick = this.startVoting;
         a.href = '#';
-        a.innerHTML = '<i class="fa fa-thumbs-up"></i>Vote content';
+        a.style.paddingLeft = "10px";
+        a.innerHTML = 'Auto';
+        voteContent.appendChild(a);
 
-        let li = document.createElement('li');
-        li.appendChild(a);
+        let dailyQuest = document.querySelector("#arp-toast > div.toast-body > table:nth-child(1) > tbody > tr > td:nth-child(1)");
 
-        breadcrumb[0].appendChild(li);
+        let b = document.createElement('a');
+        b.href = '#';
+        b.style.paddingLeft = "10px";
+        b.innerHTML = 'Auto';
+        dailyQuest.appendChild(b);
+
+        if (dailyQuest.innerText === 'Converse and be Merry!'){
+            b.onclick = this.startPosting;
+        } else if (dailyQuest.innerText === 'Extra! Extra! Read all about it!') {
+            b.onclick = this.openNews;
+        }
 
     };
 
+    this.startPosting = () => {
+        this.store('posting_started', true);
+    };
+
     this.startVoting = () => {
-        this.store('started', true);
-        this.openNews();
+        this.store('vote_started', true);
         this.selectRandomForm();
     };
 
@@ -93,7 +106,7 @@ function Alienware() {
 
     this.selectRandomForm = () => {
 
-        let forum = document.querySelectorAll("#main > div > div > div.col-lg-8.col-lg-push-4 > div:nth-child(4) > div > div > div > div.forum-heading > strong > a");
+        let forum = document.querySelectorAll("div.forum-heading > strong > a");
         let numForum = Math.floor((Math.random() * forum.length));
         forum[numForum].click();
     };
