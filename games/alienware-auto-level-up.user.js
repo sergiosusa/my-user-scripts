@@ -90,9 +90,9 @@ function Alienware() {
 
         if (dailyQuest.innerText === 'Converse and be Merry!') {
             b.onclick = this.startPosting;
-        } else if (dailyQuest.innerText === 'Extra! Extra! Read all about it!') {
+        } else if (dailyQuest.innerText === 'Extra Extra! Read all about it!') {
             b.onclick = this.openNews;
-        } else if (dailyQuest.innerText === 'Border Swap') {
+        } else if (dailyQuest.innerText === 'Border Swap!') {
             b.onclick = this.changeProfileBorder;
         } else if (dailyQuest.innerText === 'Add your favorite #letsplay video!') {
             b.onclick = this.goToVideoPage;
