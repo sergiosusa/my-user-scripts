@@ -23,7 +23,18 @@ function Alienware() {
     this.execute = () => {
         let relativePath = (/https:\/\/.{2}\.alienwarearena.com(.*)/g).exec(window.location.href)[1];
         this.executeProfileBorderChange(relativePath);
+        this.executeUpdateAboutMe(relativePath);
         this.executeAutoVoting(relativePath);
+    };
+
+    this.executeUpdateAboutMe = (relativePath) => {
+
+        if (relativePath === '/account' && this.load('modify_about_me_started') === true) {
+            document.getElementById("user_account_model_about").value += '.';
+            this.store('modify_about_me_started', false);
+            document.querySelectorAll(" button[type='submit']")[0].click();
+        }
+
     };
 
     this.executeProfileBorderChange = (relativePath) => {
@@ -100,9 +111,17 @@ function Alienware() {
             b.onclick = this.goToAwaInformationPage;
         } else if (dailyQuest.innerText === 'It\'s already been 10 years.  wow! (Need help? Visit the forums)') {
             b.onclick = this.goTo10YearsPost;
+        } else if (dailyQuest.innerText === 'Let\'s know more about you. (Update your about me in your account settings)') {
+            b.onclick = this.goToAboutMe;
         }
 
         dailyQuest.appendChild(b);
+    };
+
+    this.goToAboutMe = () => {
+        this.store('modify_about_me_started', true);
+        window.location.href = 'https://na.alienwarearena.com/account';
+
     };
 
     this.goTo10YearsPost = () => {
