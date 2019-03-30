@@ -113,9 +113,15 @@ function Alienware() {
             b.onclick = this.goTo10YearsPost;
         } else if (dailyQuest.innerText === 'Let\'s know more about you. (Update your about me in your account settings)') {
             b.onclick = this.goToAboutMe;
+        }  else if (dailyQuest.innerText === 'It cost you nothing to answer the call. (Need help? Visit the forums)') {
+            b.onclick = this.goToAnswerTheCall;
         }
 
         dailyQuest.appendChild(b);
+    };
+
+    this.goToAnswerTheCall = () => {
+        window.location.href = 'https://eu.alienwarearena.com/ucf/show/1997482/boards/gaming-news/News/call-of-duty-mobile-will-be-free-and-exclusive-for-android-and-ios';
     };
 
     this.goToAboutMe = () => {
