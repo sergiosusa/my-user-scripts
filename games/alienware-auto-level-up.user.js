@@ -115,9 +115,15 @@ function Alienware() {
             b.onclick = this.goToAboutMe;
         }  else if (dailyQuest.innerText === 'It cost you nothing to answer the call. (Need help? Visit the forums)') {
             b.onclick = this.goToAnswerTheCall;
+        }  else if (dailyQuest.innerText === 'Late to the party, but too late? (Need help? Visit the forums)') {
+            b.onclick = this.goToParty;
         }
 
         dailyQuest.appendChild(b);
+    };
+
+    this.goToParty = () => {
+        window.location.href = 'https://na.alienwarearena.com/ucf/show/1998176/boards/in-game-media-2/Video/firestorm-gameplay-and-impressions-battlefield-5';
     };
 
     this.goToAnswerTheCall = () => {
