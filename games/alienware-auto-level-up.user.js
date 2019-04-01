@@ -117,9 +117,15 @@ function Alienware() {
             b.onclick = this.goToAnswerTheCall;
         }  else if (dailyQuest.innerText === 'Late to the party, but too late? (Need help? Visit the forums)') {
             b.onclick = this.goToParty;
+        }  else if (dailyQuest.innerText === 'Add an image of your favorite video game protagonist.') {
+            b.onclick = this.goAddImage;
         }
 
         dailyQuest.appendChild(b);
+    };
+
+    this.goAddImage = () => {
+        window.location.href = 'https://na.alienwarearena.com/ucf/Image';
     };
 
     this.goToParty = () => {
