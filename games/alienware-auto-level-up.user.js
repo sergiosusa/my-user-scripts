@@ -23,6 +23,7 @@ function Alienware() {
     this.execute = () => {
         let relativePath = (/https:\/\/.{2}\.alienwarearena.com(.*)/g).exec(window.location.href)[1];
         this.executeProfileBorderChange(relativePath);
+        this.executeProfileBadgeChange(relativePath);
         this.executeUpdateAboutMe(relativePath);
         this.executeAutoVoting(relativePath);
     };
@@ -45,6 +46,18 @@ function Alienware() {
             bordersList[randomBorder].click();
             this.store('border_started', false);
             document.getElementById("btn-save-borders").click();
+        }
+    };
+
+    this.executeProfileBadgeChange = (relativePath) => {
+
+        if (relativePath === '/account/badges' && this.load('badge_started') === true) {
+            let badgeList = document.querySelectorAll("li.badge-wrapper:not(.unavailable):not(.badge-active) > img");
+            document.querySelectorAll("li.badge-active:not(.unavailable) > img")[0].click();
+            let randomBorder = Math.floor((Math.random() * badgeList.length));
+            badgeList[randomBorder].click();
+            this.store('badge_started', false);
+            document.getElementById("btn-save-icons").click();
         }
     };
 
@@ -105,6 +118,8 @@ function Alienware() {
             b.onclick = this.openNews;
         } else if (dailyQuest.innerText === 'Border Swap!') {
             b.onclick = this.changeProfileBorder;
+        } else if (dailyQuest.innerText === 'Badge Swap!') {
+            b.onclick = this.changeProfileBadge;
         } else if (dailyQuest.innerText === 'Add your favorite #letsplay video!') {
             b.onclick = this.goToVideoPage;
         } else if (dailyQuest.innerText === 'Soon™ (Need help? Visit the forums)') {
@@ -161,6 +176,11 @@ function Alienware() {
 
     this.goToAwaInformationPage = () => {
         window.location.href = 'https://na.alienwarearena.com/ucf/show/1995393/boards/awa-information/News/new-features-and-changes-coming-to-alienware-arena-in-2019';
+    };
+
+    this.changeProfileBadge = () => {
+        this.store('badge_started', true);
+        window.location.href = 'https://na.alienwarearena.com/account/badges';
     };
 
     this.changeProfileBorder = () => {
