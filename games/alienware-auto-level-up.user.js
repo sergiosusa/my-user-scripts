@@ -194,6 +194,7 @@ function Alienware() {
         window.open('https://uk.alienwarearena.com/ucf/show/1830476/boards/gaming-news/News/hellbound-in-the-news', '_blank');
         window.open('https://uk.alienwarearena.com/ucf/show/1831200/boards/gaming-news/News/the-most-interesting-new-games-01-2018', '_blank');
         window.open('https://uk.alienwarearena.com/ucf/show/1831120/boards/gaming-news/News/steam-reveals-2017s-biggest-earners-including-the-witcher-3-h1z1-and-pubg', '_blank');
+        window.open('https://uk.alienwarearena.com/ucf/show/2001457/boards/gaming-news/News/george-r-r-martin-and-from-software-cooperation-or-just-a-rumour', '_blank');
     };
 
     this.goToRandomForum = () => {
