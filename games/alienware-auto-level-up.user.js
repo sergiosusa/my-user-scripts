@@ -134,9 +134,27 @@ function Alienware() {
             b.onclick = this.goToParty;
         }  else if (dailyQuest.innerText === 'Add an image of your favorite video game protagonist.') {
             b.onclick = this.goAddImage;
+        }  else if (dailyQuest.innerText === 'Enter the pit of hell! (Need help? Check the forums)') {
+            b.onclick = this.goToPitOfHell;
+        }  else if (dailyQuest.innerText === 'A choreographic applicant got the opportunity. (Need help? Visit the forums)') {
+            b.onclick = this.goToDancer;
+        }  else if (dailyQuest.innerText === 'Time for a new look. Let\'s update those Avatars. (Note: Approvals will be delayed, but you will receive your points right away)') {
+            b.onclick = this.goToChangeAvatar;
         }
 
         dailyQuest.appendChild(b);
+    };
+
+    this.goToChangeAvatar = () => {
+        window.location.href = 'https://www.alienwarearena.com/account/avatar';
+    };
+
+    this.goToDancer = () => {
+        window.location.href = 'https://na.alienwarearena.com/ucf/show/1999375/boards/gaming-news/News/the-dancer-new-job-announced-for-ffxiv-shadowbringers';
+    };
+
+    this.goToPitOfHell = () => {
+        window.location.href = 'https://na.alienwarearena.com/ucf/show/2000747/boards/in-game-media-2/Image/doom-2006';
     };
 
     this.goAddImage = () => {
