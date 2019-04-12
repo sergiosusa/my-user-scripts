@@ -34,6 +34,10 @@ function IndiegalaGiveaways() {
             return;
         }
 
+        if (document.getElementsByTagName('h1')[0].innerText === '500 Internal Server Error') {
+            window.location = this.load('last_redirected_page', location);
+        }
+
         let html =
             '<div class="row no-margin no-padding" style="margin-top: 5px;">' +
             '   <div class="col-xs-12 col-xs-12-under-650 filter-giv-mobile">' +
@@ -165,7 +169,9 @@ function IndiegalaGiveaways() {
     };
 
     this.redirectToPage = (page, level) => {
-        window.location = 'https://www.indiegala.com/giveaways/[NUM_PAGE]/expiry/asc/level/[MIN_LEVEL]'.replace('[NUM_PAGE]', page).replace('[MIN_LEVEL]', level);
+        let location = 'https://www.indiegala.com/giveaways/[NUM_PAGE]/expiry/asc/level/[MIN_LEVEL]'.replace('[NUM_PAGE]', page).replace('[MIN_LEVEL]', level);
+        this.store('last_redirected_page', location);
+        window.location = location;
     };
 
     this.store = (key, value) => {

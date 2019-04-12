@@ -5,6 +5,7 @@
 // @description  ChronoGG Auto Flip a Coin
 // @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://chrono.gg
+// @match        https://wwww.chrono.gg
 // @grant        none
 // ==/UserScript==
 
@@ -20,7 +21,6 @@ function ChronoGG(hoursToReload) {
 
     this.flipACoin = () => {
         document.getElementById('reward-coin').click();
-        jQuery().click();
         this.reloadPage(this.hoursToReload)
     };
 
