@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         ChronoGG Flip a Coin
 // @namespace    http://sergiosusa.com/
-// @version      0.1
+// @version      0.3
 // @description  ChronoGG Auto Flip a Coin
 // @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://chrono.gg
@@ -11,8 +11,13 @@
 
 (function () {
     'use strict';
-    let chronoGG = new ChronoGG(0.01);
-    chronoGG.flipACoin();
+    let chronoGG = new ChronoGG(3);
+
+    setTimeout(
+        chronoGG.flipACoin,
+        10 * 1000
+    );
+
 })();
 
 function ChronoGG(hoursToReload) {

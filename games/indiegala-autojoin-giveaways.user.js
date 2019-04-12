@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AutoJoin IndieGala Giveaways
 // @namespace    http://sergiosusa.com
-// @version      0.14
+// @version      0.15
 // @description  Autojoin for IndieGala Giveaways!
 // @author       Sergio Susa (http://sergiosusa.com)
 // @match        https://www.indiegala.com/giveaways*
@@ -9,10 +9,9 @@
 // ==/UserScript==
 
 /******* Global Variables *******/
-var reloading = 900000;
+var reloading = 30;
 /******* Script Variables *******/
 var intervalId;
-/*******************************/
 
 (function () {
     'use strict';
@@ -34,7 +33,8 @@ function IndiegalaGiveaways() {
             return;
         }
 
-        if (document.getElementsByTagName('h1')[0].innerText === '500 Internal Server Error') {
+        let errorMessage = document.getElementsByTagName('h1');
+        if (errorMessage.length > 0 && errorMessage[0].innerText === '500 Internal Server Error') {
             window.location = this.load('last_redirected_page', location);
         }
 
