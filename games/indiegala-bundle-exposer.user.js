@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Indiegala Bundles' Exposer
 // @namespace    https://sergiosusa.com
-// @version      0.3
+// @version      0.4
 // @description  Reveal and copy each game of a indiegala's bundle.
 // @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://www.indiegala.com/gift?gift_id=*
@@ -74,7 +74,20 @@ function IndieGalaExposer() {
 
             }, 2000);
         });
-    }
+    };
+
+    this.copyToExcel = () => {
+        let titles = document.querySelectorAll('h4.title_game');
+        let serials = document.querySelectorAll('input.keys');
+        let list = [];
+
+        for(let x = 0; x < titles.length; x++) {
+            list.push(titles[x].innerText + '\t' + serials[x].value);
+        }
+
+        GM_setClipboard(list.join('\n'));
+        alert("Seriales copiados al portapapeles");
+    };
 
     this.copy = () => {
 
@@ -107,6 +120,14 @@ function insertGraphicElements(revealer) {
     copyAnchor.style.fontWeight = 'bold';
     copyAnchor.onclick = revealer.copy;
     buttonContainer.append(copyAnchor);
+
+    let copyExcelAnchor = document.createElement('a');
+    copyExcelAnchor.innerHTML = '( Copy To Excel )';
+    copyExcelAnchor.href = '#';
+    copyExcelAnchor.style.color='#EC2028';
+    copyExcelAnchor.style.fontWeight = 'bold';
+    copyExcelAnchor.onclick = revealer.copyToExcel;
+    buttonContainer.append(copyExcelAnchor);
 }
 
 /***********************************************************
