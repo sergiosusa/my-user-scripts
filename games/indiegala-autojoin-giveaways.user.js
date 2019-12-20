@@ -153,7 +153,7 @@ function IndiegalaGiveaways() {
     this.haveEnoughCoins = () => {
         document.querySelectorAll("div.account-galamoney img:last-child")[1].remove();
         let coins = document.querySelectorAll('div.account-galamoney')[2].innerText.replace('GalaSilver', '').trim();
-        return coins > 0;
+        return coins > 200;
     };
 
     this.removeExtraOddsGiveaways = () => {
