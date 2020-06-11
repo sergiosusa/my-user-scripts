@@ -12,6 +12,7 @@
 var reloading = 30;
 var minLevelInterface = 3;
 var minCoins = 50;
+var intentos = 0;
 /******* Script Variables *******/
 var intervalId;
 
@@ -41,20 +42,9 @@ function IndiegalaGiveaways() {
         }
 
         let html =
-            '<div class="row no-margin no-padding" style="margin-top: 5px;">' +
-            '   <div class="col-xs-12 col-xs-12-under-650 filter-giv-mobile">' +
-            '       <div class="row">' +
-            '           <div class="col-xs-2 mobile-3-elements" style="float:none;margin: 0 auto;">' +
-            '               <div class="sort-item">' +
-            '                   <a id="joinButton" href="#" class="palette-background-5 btn-sort">Join</a>' +
-            '               </div>' +
-            '           </div>' +
-            '       </div>' +
-            '   </div>' +
-            '</div>';
+            '<div style="margin: 0 auto;width: 100px;" class="page-slider-title bg-gradient-red"><a style="color:white;" id="joinButton" href="#" class="palette-background-5 btn-sort">Join</a></div>';
 
-
-        let voteContent = document.querySelectorAll("div.giveaways > div > div > div.sort-menu.palette-background-1 > div")[0];
+        let voteContent = document.querySelectorAll('.page-subtitle')[0];
         let div = document.createElement('div');
         div.innerHTML = html;
         voteContent.appendChild(div);
@@ -124,7 +114,9 @@ function IndiegalaGiveaways() {
     this.joinGiveaways = () => {
 
         return new Promise((resolve) => {
-            let giveawayButtons = document.querySelectorAll('aside.animated-coupon:not(.low-coins)');
+
+
+            let giveawayButtons = document.querySelectorAll('div.items-list-item-data-cont.items-list-item-ticket > div > a.items-list-item-ticket-click[href="#"]');
 
             if (giveawayButtons.length > 0) {
 
@@ -155,7 +147,7 @@ function IndiegalaGiveaways() {
     };
 
     this.haveGiveawaysAvailable = () => {
-        return document.querySelectorAll('aside.animated-coupon:not(.low-coins)').length > 0
+        return true;
     };
 
     this.removeExtraOddsGiveaways = () => {
