@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AutoJoin IndieGala Giveaways
 // @namespace    http://sergiosusa.com
-// @version      0.19
+// @version      0.20
 // @description  Autojoin for IndieGala Giveaways!
 // @author       Sergio Susa (http://sergiosusa.com)
 // @match        https://www.indiegala.com/giveaways*
@@ -116,7 +116,7 @@ function IndiegalaGiveaways() {
         return new Promise((resolve) => {
 
 
-            let giveawayButtons = document.querySelectorAll('div.items-list-item-data-cont.items-list-item-ticket > div > a.items-list-item-ticket-click[href="#"]');
+            let giveawayButtons = document.querySelectorAll('div.items-list-item-data-button:not(.items-list-item-data-not-purchasable)');
 
             if (giveawayButtons.length > 0) {
 
@@ -124,7 +124,7 @@ function IndiegalaGiveaways() {
 
                 intervalId = setInterval(function () {
 
-                    giveawayButtons[index].click();
+                    giveawayButtons[index].parentElement.parentElement.querySelector('a.items-list-item-ticket-click').click();
                     index++;
 
                     if (index >= giveawayButtons.length) {
@@ -147,7 +147,7 @@ function IndiegalaGiveaways() {
     };
 
     this.haveGiveawaysAvailable = () => {
-        return true;
+        return document.querySelectorAll('div.items-list-item-data-button:not(.items-list-item-data-not-purchasable)').length !=0;
     };
 
     this.removeExtraOddsGiveaways = () => {
