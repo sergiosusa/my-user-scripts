@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AutoJoin IndieGala Giveaways
 // @namespace    http://sergiosusa.com
-// @version      0.15
+// @version      0.17
 // @description  Autojoin for IndieGala Giveaways!
 // @author       Sergio Susa (http://sergiosusa.com)
 // @match        https://www.indiegala.com/giveaways*
@@ -10,6 +10,8 @@
 
 /******* Global Variables *******/
 var reloading = 30;
+var minLevelInterface = 3;
+var minCoins = 50;
 /******* Script Variables *******/
 var intervalId;
 
@@ -59,6 +61,8 @@ function IndiegalaGiveaways() {
 
         let joinButton = document.getElementById("joinButton");
         joinButton.onclick = this.startJoin;
+
+        setTimeout(this.startJoin, 1000 * 30);
     };
 
     this.startJoin = () => {
@@ -69,13 +73,13 @@ function IndiegalaGiveaways() {
     };
 
     this.getMaxLevel = () => {
-        return document.querySelectorAll("#ajax_get_user_data > div:nth-child(3) > span")[0].innerText;
+        return 5;
     };
 
     this.tryToJoinGiveaways = () => {
         if (this.load('indiegala-auto-join') === true && window.location.href.indexOf('/expiry/asc/level/') !== -1) {
 
-            if (!this.haveEnoughCoins()) {
+            if (!this.haveGiveawaysAvailable()) {
                 this.tryAgainAfter(reloading);
                 return;
             }
@@ -95,7 +99,7 @@ function IndiegalaGiveaways() {
             let newLevel = this.load("indiegala-auto-join-level");
             newLevel = newLevel - 1;
 
-            if (newLevel < 0) {
+            if (newLevel < 0 || newLevel < this.getMaxLevel() - minLevelInterface) {
                 newLevel = this.getMaxLevel();
             }
 
@@ -120,7 +124,7 @@ function IndiegalaGiveaways() {
     this.joinGiveaways = () => {
 
         return new Promise((resolve) => {
-            let giveawayButtons = document.querySelectorAll('aside.animated-coupon');
+            let giveawayButtons = document.querySelectorAll('aside.animated-coupon:not(.low-coins)');
 
             if (giveawayButtons.length > 0) {
 
@@ -150,20 +154,16 @@ function IndiegalaGiveaways() {
         }, minutes * 60 * 1000);
     };
 
-    this.haveEnoughCoins = () => {
-        document.querySelectorAll("div.account-galamoney img:last-child")[1].remove();
-        let coins = document.querySelectorAll('div.account-galamoney')[2].innerText.replace('GalaSilver', '').trim();
-        return coins > 200;
+    this.haveGiveawaysAvailable = () => {
+        return document.querySelectorAll('aside.animated-coupon:not(.low-coins)').length > 0
     };
 
     this.removeExtraOddsGiveaways = () => {
 
-        let giveaways = document.getElementsByClassName("extra-type");
+        let giveaways = document.getElementsByClassName("extra-odds");
 
         for (let i = 0; i < giveaways.length; i++) {
-            if (giveaways[i].innerText.trim() === 'EXTRA ODDS') {
-                giveaways[i].parentNode.parentNode.parentNode.parentNode.parentNode.remove();
-            }
+            giveaways[i].parentNode.parentNode.parentNode.parentNode.parentNode.remove();
         }
 
     };
