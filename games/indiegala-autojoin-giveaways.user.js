@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AutoJoin IndieGala Giveaways
 // @namespace    http://sergiosusa.com
-// @version      0.17
+// @version      0.18
 // @description  Autojoin for IndieGala Giveaways!
 // @author       Sergio Susa (http://sergiosusa.com)
 // @match        https://www.indiegala.com/giveaways*
