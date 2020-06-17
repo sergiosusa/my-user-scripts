@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AutoJoin IndieGala Giveaways
 // @namespace    http://sergiosusa.com
-// @version      0.20
+// @version      0.30
 // @description  Autojoin for IndieGala Giveaways!
 // @author       Sergio Susa (http://sergiosusa.com)
 // @match        https://www.indiegala.com/giveaways*
@@ -11,38 +11,48 @@
 /******* Global Variables *******/
 var reloading = 30;
 var minLevelInterface = 3;
-var minCoins = 50;
-var intentos = 0;
+var minCoins = 15;
 /******* Script Variables *******/
 var intervalId;
 
 (function () {
     'use strict';
 
-    let indiegalaGiveaways = new IndiegalaGiveaways();
-    indiegalaGiveaways.render();
+    reloadWhenError500();
 
-    setTimeout(
-        indiegalaGiveaways.tryToJoinGiveaways
-        , 10000);
+    let indiegalaGiveaways = new IndiegalaGiveaways();
+
+    setTimeout(() => {
+        indiegalaGiveaways.render();
+        indiegalaGiveaways.tryToJoinGiveaways();
+
+        setInterval(
+            indiegalaGiveaways.tryToJoinGiveaways,
+            1000 * 60 * reloading
+        );
+
+    }, 1000 * 10)
 
 })();
 
+function reloadWhenError500() {
+    let errorMessage = document.getElementsByTagName('h1');
+    if (errorMessage.length > 0 && errorMessage[0].innerText === '500 Internal Server Error') {
+        window.location = 'https://www.indiegala.com/giveaways';
+    }
+}
 
 function IndiegalaGiveaways() {
     this.render = () => {
 
-        if (window.location.href !== 'https://www.indiegala.com/giveaways') {
-            return;
-        }
+        let action = 'Join';
 
-        let errorMessage = document.getElementsByTagName('h1');
-        if (errorMessage.length > 0 && errorMessage[0].innerText === '500 Internal Server Error') {
-            window.location = this.load('last_redirected_page', location);
+        if (this.load('indiegala-auto-join') === true) {
+            action = 'Stop';
         }
 
         let html =
-            '<div style="margin: 0 auto;width: 100px;" class="page-slider-title bg-gradient-red"><a style="color:white;" id="joinButton" href="#" class="palette-background-5 btn-sort">Join</a></div>';
+            '<div style="margin: 0 auto;width: 100px;" class="page-slider-title bg-gradient-red"><a style="color:white;" id="joinButton" href="#" class="palette-background-5 btn-sort">' + action + '</a></div>';
 
         let voteContent = document.querySelectorAll('.page-subtitle')[0];
         let div = document.createElement('div');
@@ -50,16 +60,23 @@ function IndiegalaGiveaways() {
         voteContent.appendChild(div);
 
         let joinButton = document.getElementById("joinButton");
+
         joinButton.onclick = this.startJoin;
 
-        setTimeout(this.startJoin, 1000 * 30);
+        if (this.load('indiegala-auto-join') === true) {
+            joinButton.onclick = this.stopJoin;
+        }
     };
 
     this.startJoin = () => {
         this.store('indiegala-auto-join', true);
-        let maxLevel = this.getMaxLevel();
-        this.store('indiegala-auto-join-level', maxLevel);
-        this.redirectToPage(1, maxLevel);
+        this.store('indiegala-auto-join-level', this.getMaxLevel());
+        window.location = 'https://www.indiegala.com/giveaways';
+    };
+
+    this.stopJoin = () => {
+        this.store('indiegala-auto-join', false);
+        window.location = 'https://www.indiegala.com/giveaways';
     };
 
     this.getMaxLevel = () => {
@@ -67,56 +84,48 @@ function IndiegalaGiveaways() {
     };
 
     this.tryToJoinGiveaways = () => {
-        if (this.load('indiegala-auto-join') === true && window.location.href.indexOf('/expiry/asc/level/') !== -1) {
 
-            if (!this.haveGiveawaysAvailable()) {
-                this.tryAgainAfter(reloading);
-                return;
+        if (this.load('indiegala-auto-join') === false) {
+            return;
+        }
+
+        if (parseInt(document.querySelector('a.page-contents-list-submenu-current-level > span').innerText.replace('Level ', '')) !== this.load('indiegala-auto-join-level')){
+            document.querySelector('ul.page-contents-list-submenu-level > li > a[onclick="setLevel(\'' + this.load('indiegala-auto-join-level') + '\', this, event)"]').click();
+        }
+
+        setTimeout(() => {
+            this.joinGiveaways().then((value) => this.goToNextPage);
+        }, 1000 * 5);
+
+
+    }
+
+    this.goToNextPage = (canContinue) => {
+
+        if (!canContinue) {
+            return;
+        }
+
+        if (document.querySelector('a.prev-next > i.fa-angle-right')) {
+            document.querySelector('a.prev-next > i.fa-angle-right').parentElement.click();
+        } else {
+            let actualLevel = this.load('indiegala-auto-join-level');
+            actualLevel = actualLevel - 1;
+
+            if (actualLevel < 0 || actualLevel < this.getMaxLevel() - minLevelInterface) {
+                actualLevel = this.getMaxLevel();
             }
 
-            this.removeExtraOddsGiveaways();
-            this.joinGiveaways().then(this.goToNextPage);
-
+            this.store('indiegala-auto-join-level', actualLevel);
+            document.querySelector('ul.page-contents-list-submenu-level > li > a[onclick="setLevel(\'' + actualLevel + '\', this, event)"]').click();
         }
-    };
-
-    this.goToNextPage = () => {
-
-        let nextPage = parseInt((/(?:.*)\/giveaways\/(\d+)/g).exec(window.location.href)[1]) + 1;
-
-        if (nextPage > this.calculateLastPage()) {
-
-            let newLevel = this.load("indiegala-auto-join-level");
-            newLevel = newLevel - 1;
-
-            if (newLevel < 0 || newLevel < this.getMaxLevel() - minLevelInterface) {
-                newLevel = this.getMaxLevel();
-            }
-
-            this.store("indiegala-auto-join-level", newLevel);
-            nextPage = 1;
-        }
-
-        this.redirectToPage(nextPage, this.load('indiegala-auto-join-level'));
-    };
-
-    this.calculateLastPage = () => {
-        let lastPage = 1;
-
-        if (document.querySelectorAll("div.page-nav div.page-link-cont:last-child a")[0] !== undefined) {
-            lastPage = parseInt(
-                (/(?:.*)\/giveaways\/(\d+)/g).exec(document.querySelectorAll("div.page-nav div.page-link-cont:last-child a")[0].href)[1]
-            );
-        }
-        return lastPage;
-    };
+    }
 
     this.joinGiveaways = () => {
 
         return new Promise((resolve) => {
 
-
-            let giveawayButtons = document.querySelectorAll('div.items-list-item-data-button:not(.items-list-item-data-not-purchasable)');
+            let giveawayButtons = document.querySelectorAll('.page-contents-to-hide div.items-list-item-ticket a.items-list-item-ticket-click');
 
             if (giveawayButtons.length > 0) {
 
@@ -124,46 +133,28 @@ function IndiegalaGiveaways() {
 
                 intervalId = setInterval(function () {
 
-                    giveawayButtons[index].parentElement.parentElement.querySelector('a.items-list-item-ticket-click').click();
+                    giveawayButtons[index].click();
                     index++;
+
+                    if (parseInt(document.querySelector('#galasilver-amount').innerText) < minCoins) {
+                        clearInterval(intervalId);
+                        resolve(false);
+                    }
 
                     if (index >= giveawayButtons.length) {
                         clearInterval(intervalId);
-                        resolve();
+                        resolve(true);
                     }
 
-                }, 2000);
+                }, 3000);
             } else {
-                resolve();
+                if (parseInt(document.querySelector('#galasilver-amount').innerText) < minCoins) {
+                    resolve(false);
+                }
+                resolve(true);
             }
 
         });
-    };
-
-    this.tryAgainAfter = (minutes) => {
-        setInterval(function () {
-            window.location.reload();
-        }, minutes * 60 * 1000);
-    };
-
-    this.haveGiveawaysAvailable = () => {
-        return document.querySelectorAll('div.items-list-item-data-button:not(.items-list-item-data-not-purchasable)').length !=0;
-    };
-
-    this.removeExtraOddsGiveaways = () => {
-
-        let giveaways = document.getElementsByClassName("extra-odds");
-
-        for (let i = 0; i < giveaways.length; i++) {
-            giveaways[i].parentNode.parentNode.parentNode.parentNode.parentNode.remove();
-        }
-
-    };
-
-    this.redirectToPage = (page, level) => {
-        let location = 'https://www.indiegala.com/giveaways/[NUM_PAGE]/expiry/asc/level/[MIN_LEVEL]'.replace('[NUM_PAGE]', page).replace('[MIN_LEVEL]', level);
-        this.store('last_redirected_page', location);
-        window.location = location;
     };
 
     this.store = (key, value) => {
