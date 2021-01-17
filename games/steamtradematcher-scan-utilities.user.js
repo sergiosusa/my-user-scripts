@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Steam Trade Matcher Scan Utilities
 // @namespace    https://sergiosusa.com
-// @version      0.6
+// @version      0.7
 // @description  Bring some utilities to the Steam Trade Matcher results page.
 // @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://www.steamtradematcher.com/compare
@@ -146,6 +146,8 @@ function GraphicInterface(steamTradeMatcherUtilities) {
             '<hr>' +
             '<div id="order-by-trade-quantity-btn" class="trade-button" style="margin-right: 5px;margin-left: 5px;">Order by trades quantity</div>' +
             '</div>' +
-            '</div>';
+            '<div style="text-align:center;margin-bottom: 10px;" > Created by: <a href="https://sergiosusa.com" target="_blank">Sergio Susa</a></div>' +
+            '</div>'
+
     }
 }
