@@ -1,14 +1,16 @@
 // ==UserScript==
 // @name         Steam Trade Matcher Scan Utilities
 // @namespace    https://sergiosusa.com
-// @version      0.4
+// @version      0.5
 // @description  Bring some utilities to the Steam Trade Matcher results page.
 // @author       Sergio Susa (sergio@sergiosusa.com)
-// @match        http://www.steamtradematcher.com/compare
 // @match        https://www.steamtradematcher.com/compare
+// @match        https://www.steamtradematcher.com/tools/fullsets
 // @grant        none
 // @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
+
+var intervalId;
 
 (function () {
     'use strict';
@@ -101,52 +103,50 @@ function GraphicInterface(steamTradeMatcherUtilities) {
 
     this.render = () => {
 
-        let progressDiv = document.getElementById('progress-div');
-        let newElement = document.createElement('div');
-        newElement.innerHTML = this.template();
-        this.insertBefore(newElement, progressDiv);
+        if (window.location.href.includes('/tools/fullsets')) {
+            intervalId = setInterval(function(){
+                if (document.querySelector("#fullsets-calculator-progress").style.display=='none'){
+                    document.querySelectorAll(".app-image-container").forEach(function(element){
+                        var steamAppId = element.querySelector(".badge-link a").getAttribute('href').match(/https:\/\/steamcommunity\.com\/my\/gamecards\/(\d+)\//i)[1];
+                        element.innerHTML = element.innerHTML + '<div class="badge-link center-block"><a target="_blank" href="https://www.steamcardexchange.net/index.php?inventorygame-appid-' + steamAppId + '"><img src="https://www.steamcardexchange.net/include/design/img/navbar-logo.png"/></a></div>';
+                    });
+                    clearInterval(intervalId);
+                }
 
-        let showTradeBotsBtn = document.getElementById('show-trade-bots-btn');
-        showTradeBotsBtn.onclick = () => {
-            this.steamTradeMatcherUtilities.showTradeBots();
-            return false;
-        };
+            },1000);
+        }
 
-        let showNonTradeBotsBtn = document.getElementById('show-non-trade-bots-btn');
-        showNonTradeBotsBtn.onclick = () => {
-            this.steamTradeMatcherUtilities.showNonTradeBots();
-            return false;
-        };
+        if (window.location.href.includes('/compare')){
 
-        let showAllBtn = document.getElementById('show-all-btn');
-        showAllBtn.onclick = () => {
-            this.steamTradeMatcherUtilities.showAll();
-            return false;
-        };
+            let progressDiv = document.getElementById('progress-div');
+            let newElement = document.createElement('div');
+            newElement.innerHTML = this.template();
+            this.insertBefore(newElement, progressDiv);
 
-        let orderByBtn = document.getElementById('order-by-trade-quantity-btn');
-        orderByBtn.onclick = () => {
-            this.steamTradeMatcherUtilities.orderByTradeQuantity();
-            return false;
-        };
+            let showTradeBotsBtn = document.getElementById('show-trade-bots-btn');
+            showTradeBotsBtn.onclick = () => {
+                this.steamTradeMatcherUtilities.showTradeBots();
+                return false;
+            };
 
-        let openTradeBtn = document.getElementById('open-trades-btn');
-        openTradeBtn.onclick = () => {
-            this.steamTradeMatcherUtilities.openTrades();
-            return false;
-        };
+            let showNonTradeBotsBtn = document.getElementById('show-non-trade-bots-btn');
+            showNonTradeBotsBtn.onclick = () => {
+                this.steamTradeMatcherUtilities.showNonTradeBots();
+                return false;
+            };
 
-        let numTradesInput = document.getElementById('totalTrades');
-        numTradesInput.onclick = () => {
-            event.stopPropagation();
-            return false;
-        };
+            let showAllBtn = document.getElementById('show-all-btn');
+            showAllBtn.onclick = () => {
+                this.steamTradeMatcherUtilities.showAll();
+                return false;
+            };
 
-        let secondsBetweenTrades = document.getElementById('secondsBetweenTrades');
-        secondsBetweenTrades.onclick = () => {
-            event.stopPropagation();
-            return false;
-        };
+            let orderByBtn = document.getElementById('order-by-trade-quantity-btn');
+            orderByBtn.onclick = () => {
+                this.steamTradeMatcherUtilities.orderByTradeQuantity();
+                return false;
+            };
+        }
     };
 
     this.insertBefore = (newNode, referenceNode) => {
@@ -160,16 +160,14 @@ function GraphicInterface(steamTradeMatcherUtilities) {
     this.template = () => {
         return '<div class="panel panel-default" id="utilities-div">' +
             '<div class="panel-heading">' +
-            '<h3 class="panel-title">Filter Utilities</h3>' +
+            '<h3 class="panel-title">Filter Results</h3>' +
             '</div>' +
-            '<div class="panel-body"> ' +
-            '<div id="show-trade-bots-btn" class="trade-button">Show trade bots</div>' +
-            '<div id="show-non-trade-bots-btn" class="trade-button">Show non trade bots</div>' +
-            '<div id="show-all-btn" class="trade-button">Show all</div>' +
+            '<div class="panel-body" style="display:flex;flex-wrap: wrap;justify-content: center;">' +
+            '<div id="show-trade-bots-btn" class="trade-button" style="margin-right: 5px;margin-left: 5px;">Only Trade Bots</div>' +
+            '<div id="show-non-trade-bots-btn" class="trade-button" style="margin-right: 5px;margin-left: 5px;">Not Trade Bots</div>' +
+            '<div id="show-all-btn" class="trade-button" style="margin-right: 5px;margin-left: 5px;">All</div>' +
             '<hr>' +
-            '<div id="order-by-trade-quantity-btn" class="trade-button">Order by trade quantity</div>' +
-            '<hr>' +
-            '<div id="open-trades-btn" class="trade-button">Open the first <input style="width: 23px;height: 23px;" id="totalTrades" type="text" value="3" > trades each seconds <input style="width: 23px;height: 23px;" id="secondsBetweenTrades" type="text" value="10" ></div>.' +
+            '<div id="order-by-trade-quantity-btn" class="trade-button" style="margin-right: 5px;margin-left: 5px;">Order by trades quantity</div>' +
             '</div>' +
             '</div>';
     }
