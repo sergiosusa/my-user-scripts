@@ -1,21 +1,18 @@
 // ==UserScript==
 // @name         Steam Trade Matcher Scan Utilities
 // @namespace    https://sergiosusa.com
-// @version      0.5
+// @version      0.6
 // @description  Bring some utilities to the Steam Trade Matcher results page.
 // @author       Sergio Susa (sergio@sergiosusa.com)
 // @match        https://www.steamtradematcher.com/compare
 // @match        https://www.steamtradematcher.com/tools/fullsets
 // @grant        none
-// @require https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js
 // ==/UserScript==
 
 var intervalId;
 
 (function () {
     'use strict';
-    $.noConflict();
-
     let graphicInterface = new GraphicInterface(
         new SteamTradeMatcherUtilities()
     );
@@ -40,60 +37,40 @@ function SteamTradeMatcherUtilities() {
     };
 
     this.showUserByType = (type) => {
-        jQuery('.stm-user').each((index, item) => {
+        document.querySelectorAll('.stm-user').forEach(function(item) {
 
-            let userType = jQuery(item).html();
-            let traderNode = jQuery(item).parent().parent().parent();
+            let userType = item.innerHTML;
+            let traderNode = item.parentNode.parentNode.parentNode;
 
             if (userType === type || type === null) {
-                traderNode.show();
+                traderNode.style.display = '';
             } else {
-                traderNode.hide();
+                traderNode.style.display = 'none';
             }
         });
     };
 
     this.orderByTradeQuantity = () => {
-        let results = jQuery('#match-results > div');
+        let results = document.querySelectorAll('#match-results > div');
+        let arrayNodes = [];
 
-        results.detach().sort(
+        results.forEach(function(item){
+            item.parentElement.removeChild(item);
+            arrayNodes.push(item);
+        });
+
+        arrayNodes.sort(
             (a, b) => {
-                let tradesA = jQuery(a).find('.match-container').length;
-                let tradesB = jQuery(b).find('.match-container').length;
+                let tradesA = a.querySelectorAll('.match-container').length;
+                let tradesB = b.querySelectorAll('.match-container').length;
 
                 return (tradesA < tradesB) ? ((tradesA < tradesB) ? 1 : 0) : -1;
             }
         );
-        jQuery('#match-results').append(results);
-    };
 
-    this.openTrades = () => {
-        let totalTrades = parseInt(jQuery('#totalTrades')[0].value);
-        let secondsBetweenTrades = parseInt(jQuery('#secondsBetweenTrades')[0].value);
-
-        if (isNaN(totalTrades)) {
-            totalTrades = 3;
-        }
-
-        if (isNaN(secondsBetweenTrades)) {
-            secondsBetweenTrades = 10;
-        }
-
-        let tradeButtons = jQuery('a div.trade-button:visible');
-
-        if (tradeButtons.length < totalTrades) {
-            totalTrades = tradeButtons.length;
-        }
-
-        let x = 0;
-        let refreshIntervalId = setInterval(() => {
-            if (x >= totalTrades) {
-                clearInterval(refreshIntervalId);
-                return;
-            }
-            tradeButtons[x].click();
-            x++;
-        }, 1000 * secondsBetweenTrades);
+        arrayNodes.forEach(function(item){
+            document.querySelector('#match-results').append(item);
+        });
     };
 }
 
